@@ -41,6 +41,7 @@ func main() {
 	api := slack.New(token, slack.OptionDebug(debug))
 
 	data := data.NewMemory()
+        go data.AutoRemove()
 	// Prune inactive resources once an hour
 	go func() {
 		for {

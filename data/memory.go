@@ -373,3 +373,19 @@ func (m *Memory) PruneInactiveResources(hours int) error {
 	}
 	return nil
 }
+
+func (m *Memory) AutoRemove() {
+    checkInterval := time.Second * 5
+    //timeLimit := time.Hour
+    timeLimit := time.Minute * 5
+
+    for {
+        time.Sleep(checkInterval)
+
+        for _, res := range m.Reservations {
+            if time.Since(res.Time) > timeLimit {
+                m.Remove(res.User, res.Resource.Name, res.Resource.Env)
+            }
+        }
+    }
+}
