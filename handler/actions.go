@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"regexp"
+        "time"
 
 	"github.com/ameliagapin/reservebot/data"
 	e "github.com/ameliagapin/reservebot/err"
@@ -103,9 +104,11 @@ func (h *Handler) reserve(ea *EventAction) error {
 		return err
 	}
 
+        testDuration := time.Minute * 5
+
 	success := []*models.Resource{}
 	for _, res := range resources {
-		err := h.data.Reserve(u, res.Name, res.Env)
+		err := h.data.Reserve(u, res.Name, res.Env, testDuration)
 		if err != nil {
 			// if the user is already in the queue, we're going to skip returning an error
 			if err != e.AlreadyInQueue {

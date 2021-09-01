@@ -24,7 +24,7 @@ func NewMemory() *Memory {
 	}
 }
 
-func (m *Memory) Reserve(u *models.User, name, env string) error {
+func (m *Memory) Reserve(u *models.User, name, env string, dur time.Duration) error {
 	r := m.GetResource(name, env, true)
 
 	m.lock.Lock()
@@ -43,6 +43,7 @@ func (m *Memory) Reserve(u *models.User, name, env string) error {
 		User:     u,
 		Resource: r,
 		Time:     time.Now(),
+                Duration: dur,
 	}
 
 	m.Reservations = append(m.Reservations, res)
@@ -377,13 +378,14 @@ func (m *Memory) PruneInactiveResources(hours int) error {
 func (m *Memory) AutoRemove() {
     checkInterval := time.Second * 5
     //timeLimit := time.Hour
-    timeLimit := time.Minute * 5
+    //timeLimit := time.Minute * 5
 
     for {
         time.Sleep(checkInterval)
 
         for _, res := range m.Reservations {
-            if time.Since(res.Time) > timeLimit {
+            //if time.Since(res.Time) > timeLimit {
+            if res.TimeRemaining().Seconds() <= 0 {
                 m.Remove(res.User, res.Resource.Name, res.Resource.Env)
             }
         }

@@ -2,6 +2,7 @@ package data
 
 import (
 	"github.com/ameliagapin/reservebot/models"
+        "time"
 )
 
 type Manager interface {
@@ -18,6 +19,6 @@ type Manager interface {
 	Remove(u *models.User, name string, env string) error
 	RemoveEnv(name string, env string) error
 	RemoveResource(name string, env string) error
-	Reserve(u *models.User, name string, env string) error
+	Reserve(u *models.User, name string, env string, dur time.Duration) error
 	ClearQueueForResource(name, env string) error
 }
