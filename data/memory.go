@@ -225,6 +225,11 @@ func (m *Memory) GetResources() []*models.Resource {
 	return ret
 }
 
+func (m *Memory) GetReservations() []*models.Reservation {
+
+        return m.Reservations
+}
+
 // Does not implement lock
 func (m *Memory) GetQueues() []*models.Queue {
 	ret := []*models.Queue{}

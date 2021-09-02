@@ -592,3 +592,29 @@ func (h *Handler) prune(ea *EventAction) error {
 
 	return nil
 }
+
+func (h *Handler) Warn(ea *EventAction) error {
+
+        ev := ea.Event
+        _, err := h.getUser(ev.User)
+        if err != nil {
+                log.Errorf("%+v", err)
+                h.errorReply(ev.Channel, "")
+                return err
+        }
+
+        checkInterval := time.Second * 5
+        //timeLimit := time.Hour
+        //timeLimit := time.Minute * 5
+
+        for {
+            time.Sleep(checkInterval)
+            reservations := h.data.GetReservations()
+            for _, res := range reservations {
+                //if time.Since(res.Time) > timeLimit {
+                if res.TimeRemaining().Seconds() <= 60 {
+                    h.reply(ea, fmt.Sprintf(msgExpirySoon, res), true)
+                }
+            }
+        }
+}
