@@ -56,6 +56,7 @@ func main() {
 	}()
 
 	handler := handler.New(api, data, reqResourceEnv)
+        go handler.Warn()
 
 	http.HandleFunc("/events", func(w http.ResponseWriter, r *http.Request) {
 		buf := new(bytes.Buffer)

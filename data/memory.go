@@ -313,6 +313,12 @@ func (m *Memory) GetResourcesForEnv(env string) []*models.Resource {
 	return ret
 }
 
+func (m *Memory) GetReservations() []*models.Reservation {
+
+        return m.Reservations
+
+}
+
 func (m *Memory) GetAllUsersInQueues() []*models.User {
 	m.lock.Lock()
 	defer m.lock.Unlock()
