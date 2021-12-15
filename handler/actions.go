@@ -28,7 +28,7 @@ var (
 		"prune":         *regexp.MustCompile(`(?m)^\<\@[A-Z0-9]+\>\sprune$`),
 		"help":          *regexp.MustCompile(`(?m)^\<\@[A-Z0-9]+\>\shelp$`),
 
-		"reserve_dm":       *regexp.MustCompile(`(?m)^reserve\s(.+)`),
+		"reserve_dm":       *regexp.MustCompile(`(?m)^reserve\s(\S+)\s?(.+)?`),
 		"release_dm":       *regexp.MustCompile(`(?m)^release\s(.+)`),
 		"clear_dm":         *regexp.MustCompile(`(?m)^clear\s(.+)`),
 		"kick_dm":          *regexp.MustCompile(`(?m)^kick\s\<\@([a-zA-Z0-9]+)\>`),
