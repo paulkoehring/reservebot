@@ -322,7 +322,7 @@ When invoking via DM, I will alert other users via DM when necessary. E.g. Relea
 
 When invoking within a channel, you must @-mention me by adding ` + "`@reservebot`" + ` to the _beginning_ of your command.
 
-` + "`reserve <resource>`" + ` This will reserve a given resource for the user. If the resource is currently reserved, the user will be placed into the queue. The resource should be an alphanumeric string with no spaces. A comma-separted list can be used to reserve multiple resources.
+` + "`reserve <resource> _h_m__s`" + ` This will reserve a given resource for the user for the specified amount of time. If the resource is currently reserved, the user will be placed into the queue. The resource should be an alphanumeric string with no spaces. NOTE: ONE MINUTE PRIOR TO YOUR RESERVATION EXPIRING, YOU WILL RECEIVE A WARNING MESSAGE. Reserve the resource again to extend your reservation as needed. If you do not specify a duration, your reservation will default to 1 hour. 
 
 ` + "`release <resource>`" + ` This will release a given resource. This command must be executed by the person who holds the resource. Upon release, the next person waiting in line will be notified that they now have the resource. The resource should be an alphanumeric string with no spaces. A comma-separted list can be used to reserve multiple resources.
 
