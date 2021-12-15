@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
         "time"
+        "strings"
 
 	"github.com/ameliagapin/reservebot/data"
 	e "github.com/ameliagapin/reservebot/err"
@@ -15,7 +16,7 @@ import (
 var (
 	actions = map[string]regexp.Regexp{
 		"hello":         *regexp.MustCompile(`hello.+`),
-		"reserve":       *regexp.MustCompile(`(?m)^\<\@[A-Z0-9]+\>\sreserve\s(.+)`),
+		"reserve":       *regexp.MustCompile(`(?m)^\<\@[A-Z0-9]+\>\sreserve\s(\S+)\s?(.+)?`),
 		"release":       *regexp.MustCompile(`(?m)^\<\@[A-Z0-9]+\>\srelease\s(.+)`),
 		"clear":         *regexp.MustCompile(`(?m)^\<\@[A-Z0-9]+\>\sclear\s(.+)`),
 		"kick":          *regexp.MustCompile(`(?m)^\<\@[A-Z0-9]+\>\skick\s\<\@([a-zA-Z0-9]+)\>`),
@@ -104,11 +105,17 @@ func (h *Handler) reserve(ea *EventAction) error {
 		return err
 	}
 
-        testDuration := time.Minute * 5
+        durationStr := strings.Trim(matches[1], " ")
+
+        var duration time.Duration
+        duration, err = time.ParseDuration(durationStr)
+        if err != nil {
+            duration = time.Hour
+        }
 
 	success := []*models.Resource{}
 	for _, res := range resources {
-		err := h.data.Reserve(u, res.Name, res.Env, testDuration)
+		err := h.data.Reserve(u, res.Name, res.Env, duration)
 		if err != nil {
 			// if the user is already in the queue, we're going to skip returning an error
 			if err != e.AlreadyInQueue {
