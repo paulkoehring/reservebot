@@ -78,6 +78,7 @@ var (
         msgYouHaveReleasedY             = "you have released `%s`"
         msgYouHaveRemovedXFromY         = "you have removed %s from `%s`"
         msgYouHaveRemovedYourselfFromY  = "you have removed yourself from `%s`"
+        msgExpirySoon                   = "your reservation of `%s` will expire soon"
 )
 
 func (h *Handler) getAction(text string) string {
@@ -601,4 +602,22 @@ func (h *Handler) prune(ea *EventAction) error {
 	h.reply(ea, msgQueuesPruned, false)
 
 	return nil
+}
+
+func (h *Handler) Warn() error {
+
+        checkInterval := time.Second * 60
+        //timeLimit := time.Hour
+        //timeLimit := time.Minute * 5
+
+        for {
+            time.Sleep(checkInterval)
+            reservations := h.data.GetReservations()
+            for _, res := range reservations {
+                //if time.Since(res.Time) > timeLimit {
+                if res.TimeRemaining().Seconds() <= 60 {
+                    h.sendDM(res.User, fmt.Sprintf(msgExpirySoon, res.Resource))
+                }
+            }
+        }
 }

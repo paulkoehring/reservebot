@@ -13,6 +13,7 @@ type Manager interface {
 	GetQueuesForEnv(env string) map[string]*models.Queue
 	GetReservation(u *models.User, name string, env string) *models.Reservation
 	GetReservationForResource(name string, env string) (*models.Reservation, error)
+        GetReservations() []*models.Reservation
 	GetResource(name string, env string, create bool) *models.Resource
 	GetResources() []*models.Resource
 	GetResourcesForEnv(env string) []*models.Resource
