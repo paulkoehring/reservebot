@@ -78,7 +78,7 @@ var (
         msgYouHaveReleasedY             = "you have released `%s`"
         msgYouHaveRemovedXFromY         = "you have removed %s from `%s`"
         msgYouHaveRemovedYourselfFromY  = "you have removed yourself from `%s`"
-        msgExpirySoon                   = "your reservation of `%s` will expire soon"
+        msgExpirySoon                   = "WARNING: Your reservation of `%s` will expire in one minute. Please re-reserve the resource if you wish to extend your reservation."
 )
 
 func (h *Handler) getAction(text string) string {
